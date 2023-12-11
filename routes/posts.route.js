@@ -4,10 +4,15 @@ const {PostModel} = require("../model/posts.model")
 const postRouter = express.Router();
 
 postRouter.get("/", async (req,res) => {
-    const {device} = req.query;
+    const {device1,device2,device} = req.query;
     const {userID} = req.body;
     const query = {};
-    if(device) {
+    if(device1 && device2) {
+        query.device = {
+            $and : [{device : device1}, {device : device2}]
+        }
+    }
+    else if(device) {
         query.device = device
     }
     // console.log(device)
